@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create a New Post</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+</head>
+
+<body class="bg-gray-100 font-sans">
+
+    <!-- Main Container -->
+    <div class="min-h-screen flex items-center justify-center">
+        <div class="bg-white shadow-lg rounded-lg p-8 max-w-md w-full animate__animated animate__fadeInUp">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">Create a New Post</h2>
+
+            <!-- Post Form -->
+            <form method="POST" action="" enctype="multipart/form-data" class="space-y-6">
+                {% csrf_token %}
+
+                <!-- Post Image Upload -->
+                <div>
+                    <label for="post_pic" class="block text-sm font-medium text-gray-700">Upload Post Image</label>
+                    <input type="file" name="post_pic" id="post_pic"
+                           class="mt-2 w-full text-gray-800 bg-gray-100 border border-gray-300 rounded p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                           onchange="previewImage(event)">
+                </div>
+
+                <!-- Image Preview -->
+                <div id="image-preview" class="mt-4">
+                    <img id="preview-img" src="" alt="Image Preview" class="w-full rounded-md hidden">
+                </div>
+
+                <!-- Description Text Area -->
+                <div>
+                    <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                    <textarea name="description" id="description" rows="4"
+                              class="mt-2 w-full text-gray-800 bg-gray-100 border border-gray-300 rounded p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                              placeholder="Add a description..."></textarea>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="flex justify-center">
+                    <button type="submit"
+                            class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-200">
+                        Post
+                    </button>
+                </div>
+            </form>
+
+            <!-- Back to Home Link -->
+            <div class="mt-6 text-center">
+                <a href="{% url 'home' %}" class="text-blue-600 hover:underline">Back to Home</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript for Image Preview -->
+    <script>
+        function previewImage(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function () {
+                const previewImg = document.getElementById('preview-img');
+                previewImg.src = reader.result;
+                previewImg.classList.remove('hidden');
+            }
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+
+</body>
+</html>
